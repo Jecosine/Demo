@@ -129,7 +129,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     public void selected(){
-        //simout***sly set text and icon active
+        //simultaneously set text and icon active
         home_tab.setSelected(false);
         home_tab.setTextColor(getResources().getColor(R.color.custom_gray));
         feed_tab.setSelected(false);
@@ -249,7 +249,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     //classes define
     public class FragmentAdapter extends FragmentPagerAdapter {
-        List<Fragment> fragmentList = new Array<Fragment>();
+        List<Fragment> fragmentList = new ArrayList<Fragment>();
 
         public FragmentAdapter(FragmentManager fragmentManager,List<Fragment> fragmentList) {
             super(fragmentManager);
