@@ -49,36 +49,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     //define swiping element
     final private int MIN_SWIPE_LENGTH = 100;
     final private int MIN_SWIPE_VELOCITY = 100;
-    private ViewFlipper fliper = null;
     private GestureDetector gestureDetector = null;
-    private Vibrator vibrator = null;
+
     private boolean isDragMode = false;
-    //define animation
-    private Animation leftin = null;
-    private Animation leftout = null;
-    private Animation rightin = null;
-    private Animation rightout = null;
+
+
+    private int currentView = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_main);
-
-        //implement flipper part
-        fliper = new ViewFlipper(this);
         gestureDetector = new GestureDetector(this,this);
-        vibrator = (Vibrator)getSystemService(VIBRATOR_SERVICE);
-        fliper.setInAnimation(leftin);
-        fliper.setOutAnimation(leftout);
-        fliper.setFlipInterval(3000);
-        fliper.setAnimateFirstView(true);
+
         //implement viewer part
         start_View();
         fragmentAdapter = new FragmentAdapter(this.getSupportFragmentManager(),fragmentList);
         viewPager.setOffscreenPageLimit(4);
         viewPager.setAdapter(fragmentAdapter);
-        viewPager.setCurrentItem(0);
+
         //set view pager listen event
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -89,7 +79,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onPageSelected(int i) {
                 //called when page is selected
-                Animation animation = new TranslateAnimation()
+                //Animation animation = new TranslateAnimation();
+                selected();
+                setHighLight(i);
             }
 
             @Override
@@ -100,36 +92,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 //case 2 finish slipping
             }
         });
+        selected();
+        viewPager.setCurrentItem(0);
+        setHighLight(0);
     }
 
-    //set animations
-    private void setAnimations() {
-        leftin = new TranslateAnimation(
-                Animation.RELATIVE_TO_PARENT, +1.0f, Animation.RELATIVE_TO_PARENT, 0.0f,
-                Animation.RELATIVE_TO_PARENT, 0.0f, Animation.RELATIVE_TO_PARENT, 0.0f
-        );
-        leftout = new TranslateAnimation(
-                Animation.RELATIVE_TO_PARENT, 0.0f, Animation.RELATIVE_TO_PARENT, -1.0f,
-                Animation.RELATIVE_TO_PARENT, 0.0f, Animation.RELATIVE_TO_PARENT, 0.0f
-        );
-        rightin = new TranslateAnimation(
-                Animation.RELATIVE_TO_PARENT, -1.0f, Animation.RELATIVE_TO_PARENT, 0.0f,
-                Animation.RELATIVE_TO_PARENT, 0.0f, Animation.RELATIVE_TO_PARENT, 0.0f
-        );
-        rightout = new TranslateAnimation(
-                Animation.RELATIVE_TO_PARENT, 0.0f, Animation.RELATIVE_TO_PARENT, +1.0f,
-                Animation.RELATIVE_TO_PARENT, 0.0f, Animation.RELATIVE_TO_PARENT, 0.0f
-        );
-        leftin.setDuration(1000);
-        leftin.setInterpolator(new OvershootInterpolator());
-        leftout.setDuration(1000);
-        leftout.setInterpolator(new OvershootInterpolator());
-        rightin.setDuration(1000);
-        rightin.setInterpolator(new OvershootInterpolator());
-        rightout.setDuration(1000);
-        rightout.setInterpolator(new OvershootInterpolator());
-
-    }
 
     private void start_View() {
         home_tab = (TextView)this.findViewById(R.id.tab_home);
@@ -153,9 +120,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         fragmentList.add(feedPage);
         fragmentList.add(shopPage);
         fragmentList.add(mePage);
-        for (int i = 0;i<4;i++){
-            fliper.addView(fragmentList.get(i),i);
-        }
         //Initially home page
         //this.onClick(home_tab);
 
@@ -172,77 +136,63 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         me_tab.setSelected(false);
         me_tab.setTextColor(getResources().getColor(R.color.custom_gray));
     }
-
-    public void hideFragment(FragmentTransaction transaction){
-        if (p1 != null)
-            transaction.hide(p1);
-        if (p2 != null)
-            transaction.hide(p2);
-        if (p3 != null)
-            transaction.hide(p3);
-        if (p4 != null)
-            transaction.hide(p4);
+    public void setHighLight(int i){
+        selected();
+        switch (i){
+            case 0:
+                home_tab.setSelected(true);
+                home_tab.setTextColor(getResources().getColor(R.color.tea));
+                break;
+            case 1:
+                feed_tab.setSelected(true);
+                feed_tab.setTextColor(getResources().getColor(R.color.tea));
+                break;
+            case 2:
+                shop_tab.setSelected(true);
+                shop_tab.setTextColor(getResources().getColor(R.color.tea));
+                break;
+            case 3:
+                me_tab.setSelected(true);
+                me_tab.setTextColor(getResources().getColor(R.color.tea));
+                break;
+        }
     }
+
 
     @Override
     public void onClick(View view) {
-        //FragmentTransaction transaction = this.getSupportFragmentManager().beginTransaction();
-        //hideFragment(transaction);
+
         switch (view.getId()){
             case R.id.tab_home:
                 selected();
                 home_tab.setSelected(true);
                 home_tab.setTextColor(getResources().getColor(R.color.tea));
                 viewPager.setCurrentItem(0,true);
-                /*if (p1 == null){
-                    p1 = new PageFragment("Home Page");
-                    transaction.add(R.id.content_container,p1);
-                }
-                else {
-                    transaction.show(p1);
-                }*/
+
                 break;
             case R.id.tab_feed:
                 selected();
                 feed_tab.setSelected(true);
                 feed_tab.setTextColor(getResources().getColor(R.color.tea));
-                /*if (p2 == null){
-                    p2 = new PageFragment("Feed Page");
-                    transaction.add(R.id.content_container,p2);
-                }
-                else {
-                    transaction.show(p2);
-                }*/
+
                 viewPager.setCurrentItem(1,true);
                 break;
             case R.id.tab_shop:
                 selected();
                 shop_tab.setSelected(true);
                 shop_tab.setTextColor(getResources().getColor(R.color.tea));
-                /*if (p3 == null){
-                    p3 = new PageFragment("Shop Page");
-                    transaction.add(R.id.content_container,p3);
-                }
-                else {
-                    transaction.show(p3);
-                }*/
+
                 viewPager.setCurrentItem(2,true);
                 break;
             case R.id.tab_me:
                 selected();
                 me_tab.setSelected(true);
                 me_tab.setTextColor(getResources().getColor(R.color.tea));
-                /*if (p4 == null){
-                    p4 = new PageFragment("Me Page");
-                    transaction.add(R.id.content_container,p4);
-                }
-                else {
-                    transaction.show(p4);
-                }*/
+
                 viewPager.setCurrentItem(3,true);
                 break;
         }
-        //transaction.commit();
+
     }
 
     //implement flip
@@ -260,24 +210,55 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     //onFling is called when the user swipes the screen in any direction
     @Override
     public boolean onFling(MotionEvent event1,MotionEvent event2,float vx,float vy) {
-        if (isDragMode)
+        if (isDragMode) {
             return false;
+        }
         final float event1X = event1.getX();
         final float event1Y = event1.getY();
         final float event2X = event2.getX();
         final float event2Y = event2.getY();
         final float distanceX = Math.abs(event1X - event2X);
-        final float distanceY = Math.abs(event1Y - event2Y);
-        final float velocityx = Math.abs(vx);
-        final float velocityy = Math.abs(vy);
+        //final float distanceY = Math.abs(event1Y - event2Y);
+        final float velocityX = Math.abs(vx);
+        //final float velocityY = Math.abs(vy);
 
-        if (velocityx > this.MIN_SWIPE_VELOCITY && distanceX > this.MIN_SWIPE_LENGTH) {
+        if (velocityX > this.MIN_SWIPE_VELOCITY && distanceX > this.MIN_SWIPE_LENGTH) {
             if (event1X > event2X) {
                 //swipe left
-
-
+                if (--currentView < 0){
+                    currentView = 0;
+                }else {
+                    viewPager.setCurrentItem(currentView,true);
+                    setHighLight(currentView);
+                }
+            }else {
+                //swipe Right
+                if (++currentView > 3){
+                    currentView = 3;
+                }else {
+                    viewPager.setCurrentItem(currentView,true);
+                }
             }
+
         }
+        return false;
+    }
+
+    @Override
+    public void onLongPress(MotionEvent event){
+        isDragMode = !isDragMode;
+    }
+    @Override
+    public boolean onSingleTapUp(MotionEvent event){
+        return false;
+    }
+    @Override
+    public boolean onScroll(MotionEvent event1, MotionEvent e2,float distanceX,float distanceY){
+        return false;
+    }
+    @Override
+    public void onShowPress(MotionEvent event){
+
     }
 
 
