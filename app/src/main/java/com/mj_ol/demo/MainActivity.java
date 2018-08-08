@@ -23,6 +23,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private TextView me_tab;
     private FrameLayout page_content;
 
+    private HomePage homePage = null;
+    private FeedPage feedPage = null;
+    private ShopPage shopPage = null;
+    private MePage mePage = null;
+
     private PageFragment p1,p2,p3,p4;
     private FragmentManager manager;
 
@@ -45,14 +50,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_main);
 
+        //implement fliper part
         fliper = new ViewFlipper(this);
         gestureDetector = new GestureDetector(this,this);
         vibrator = (Vibrator)getSystemService(VIBRATOR_SERVICE);
-
         fliper.setInAnimation(leftin);
         fliper.setOutAnimation(leftout);
         fliper.setFlipInterval(3000);
         fliper.setAnimateFirstView(true);
+        //implement viewer part
 
         start_View();
     }
@@ -71,11 +77,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         shop_tab.setOnClickListener(this);
         me_tab.setOnClickListener(this);
 
-        //Initiallty home page
+        //Initially home page
         this.onClick(home_tab);
 
     }
+
     public void selected(){
+        //simout***sly set text and icon active
         home_tab.setSelected(false);
         home_tab.setTextColor(getResources().getColor(R.color.custom_gray));
         feed_tab.setSelected(false);
@@ -85,6 +93,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         me_tab.setSelected(false);
         me_tab.setTextColor(getResources().getColor(R.color.custom_gray));
     }
+
     public void hideFragment(FragmentTransaction transaction){
         if (p1 != null)
             transaction.hide(p1);
