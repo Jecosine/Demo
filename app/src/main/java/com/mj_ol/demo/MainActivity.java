@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.ViewParent;
 import android.view.Window;
 import android.view.animation.Animation;
@@ -88,7 +89,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onPageSelected(int i) {
                 //called when page is selected
-
+                Animation animation = new TranslateAnimation()
             }
 
             @Override
@@ -99,9 +100,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 //case 2 finish slipping
             }
         });
-
-
-
     }
 
     //set animations
@@ -155,7 +153,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         fragmentList.add(feedPage);
         fragmentList.add(shopPage);
         fragmentList.add(mePage);
-
+        for (int i = 0;i<4;i++){
+            fliper.addView(fragmentList.get(i),i);
+        }
         //Initially home page
         //this.onClick(home_tab);
 
@@ -274,6 +274,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (velocityx > this.MIN_SWIPE_VELOCITY && distanceX > this.MIN_SWIPE_LENGTH) {
             if (event1X > event2X) {
                 //swipe left
+
 
             }
         }
