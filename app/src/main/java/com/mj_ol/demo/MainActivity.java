@@ -3,26 +3,32 @@ package com.mj_ol.demo;
 import android.content.res.ColorStateList;
 import android.os.Vibrator;
 import android.provider.ContactsContract;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewParent;
 import android.view.Window;
 import android.view.animation.Animation;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.ViewFlipper;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener,GestureDetector.OnGestureListener {
-    private TextView home_tab;
-    private TextView feed_tab;
-    private TextView shop_tab;
-    private TextView me_tab;
-    private FrameLayout page_content;
+import java.util.List;
 
+public class MainActivity extends AppCompatActivity implements View.OnClickListener,GestureDetector.OnGestureListener {
+    private TextView home_tab = null;
+    private TextView feed_tab = null;
+    private TextView shop_tab = null;
+    private TextView me_tab = null;
+    private FrameLayout page_content = null;
+    //define page viewer part
     private HomePage homePage = null;
     private FeedPage feedPage = null;
     private ShopPage shopPage = null;
@@ -30,15 +36,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private PageFragment p1,p2,p3,p4;
     private FragmentManager manager;
+    private ViewPager viewPager = null;
+    private List<Fragment> fragmentList = new Arraylist<Fragment>();
+    private  FragmentAdapter fragmentAdapter = null;
 
-    //set swiping element
+    //define swiping element
     final private int MIN_SWIPE_LENGTH = 100;
     final private int MIN_SWIPE_VELOCITY = 100;
     private ViewFlipper fliper = null;
     private GestureDetector gestureDetector = null;
     private Vibrator vibrator = null;
     private boolean isDragMode = false;
-    //set animation
+    //define animation
     private Animation leftin = null;
     private Animation leftout = null;
     private Animation rightin = null;
@@ -50,7 +59,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_main);
 
-        //implement fliper part
+        //implement flipper part
         fliper = new ViewFlipper(this);
         gestureDetector = new GestureDetector(this,this);
         vibrator = (Vibrator)getSystemService(VIBRATOR_SERVICE);
@@ -59,8 +68,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         fliper.setFlipInterval(3000);
         fliper.setAnimateFirstView(true);
         //implement viewer part
-
         start_View();
+        fragmentAdapter = new FragmentAdapter(this.getSupportFragmentManager(),fragmentList)
     }
 
 
@@ -193,6 +202,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 //swipe left
 
             }
+        }
+    }
+
+
+    //classes define
+    public class FragmentAdapter extends FragmentPagerAdapter {
+        List<Fragment> fragmentList = new Array<Fragment>();
+
+        public FragmentAdapter(FragmentManager fragmentManager,List<Fragment> fragmentList) {
+            super(fragmentManager);
+            this.fragmentList = fragmentList;
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            return fragmentList.get(position);
+        }
+
+        @Override
+        public int getCount() {
+            return fragmentList.size();
         }
     }
 
