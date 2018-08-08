@@ -16,6 +16,9 @@ import android.view.View;
 import android.view.ViewParent;
 import android.view.Window;
 import android.view.animation.Animation;
+import android.view.animation.Interpolator;
+import android.view.animation.OvershootInterpolator;
+import android.view.animation.TranslateAnimation;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.ViewFlipper;
@@ -24,6 +27,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener,GestureDetector.OnGestureListener {
+
     private TextView home_tab = null;
     private TextView feed_tab = null;
     private TextView shop_tab = null;
@@ -96,9 +100,38 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
 
+
+
     }
 
+    //set animations
+    private void setAnimations() {
+        leftin = new TranslateAnimation(
+                Animation.RELATIVE_TO_PARENT, +1.0f, Animation.RELATIVE_TO_PARENT, 0.0f,
+                Animation.RELATIVE_TO_PARENT, 0.0f, Animation.RELATIVE_TO_PARENT, 0.0f
+        );
+        leftout = new TranslateAnimation(
+                Animation.RELATIVE_TO_PARENT, 0.0f, Animation.RELATIVE_TO_PARENT, -1.0f,
+                Animation.RELATIVE_TO_PARENT, 0.0f, Animation.RELATIVE_TO_PARENT, 0.0f
+        );
+        rightin = new TranslateAnimation(
+                Animation.RELATIVE_TO_PARENT, -1.0f, Animation.RELATIVE_TO_PARENT, 0.0f,
+                Animation.RELATIVE_TO_PARENT, 0.0f, Animation.RELATIVE_TO_PARENT, 0.0f
+        );
+        rightout = new TranslateAnimation(
+                Animation.RELATIVE_TO_PARENT, 0.0f, Animation.RELATIVE_TO_PARENT, +1.0f,
+                Animation.RELATIVE_TO_PARENT, 0.0f, Animation.RELATIVE_TO_PARENT, 0.0f
+        );
+        leftin.setDuration(1000);
+        leftin.setInterpolator(new OvershootInterpolator());
+        leftout.setDuration(1000);
+        leftout.setInterpolator(new OvershootInterpolator());
+        rightin.setDuration(1000);
+        rightin.setInterpolator(new OvershootInterpolator());
+        rightout.setDuration(1000);
+        rightout.setInterpolator(new OvershootInterpolator());
 
+    }
 
     private void start_View() {
         home_tab = (TextView)this.findViewById(R.id.tab_home);
