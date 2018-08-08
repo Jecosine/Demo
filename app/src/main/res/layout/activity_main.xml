@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:id="@+id/tab_title"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginBottom="430dp"
+            android:background="@color/custom_white"
+            android:visibility="visible"
+            app:layout_constraintBottom_toTopOf="@+id/navigation"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/txt_top"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="@string/app_name"
+                android:textColor="@color/tea"
+                android:textSize="24sp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_alignParentBottom="true"
+                android:background="@drawable/bg_title_bar" />
+        </RelativeLayout>
+
+        <LinearLayout
+
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="65dp"
+            android:layout_alignParentBottom="true"
+            android:id="@+id/navigation"
+            >
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+
+                android:background="@drawable/bg_title_bar_reverse"
+                android:clickable="false" />
+
+            <LinearLayout
+                android:layout_height="64dp"
+
+                android:layout_width="match_parent"
+
+
+                android:background="@color/custom_white"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/navigation">
+
+                <TextView
+                    android:id="@+id/tab_home"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="15dp"
+
+                    android:layout_weight="1"
+                    android:drawablePadding="-20dp"
+                    android:drawableTop="@drawable/home_tab"
+
+                    android:gravity="center"
+
+                    android:text="@string/home"
+                    android:textColor="@color/custom_gray"
+                    android:textSize="8sp" />
+
+                <TextView
+                    android:id="@+id/tab_feed"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="15dp"
+                    android:layout_weight="1"
+                    android:drawablePadding="-20dp"
+                    android:drawableTop="@drawable/feed_tab"
+                    android:gravity="center"
+                    android:text="@string/feed"
+                    android:textColor="@color/custom_gray"
+                    android:textSize="8sp" />
+
+                <TextView
+                    android:id="@+id/tab_shop"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="15dp"
+                    android:layout_weight="1"
+                    android:drawablePadding="-20dp"
+                    android:drawableTop="@drawable/shop_tab"
+                    android:gravity="center"
+                    android:text="@string/shop"
+                    android:textColor="@color/custom_gray"
+                    android:textSize="8sp" />
+
+                <TextView
+                    android:id="@+id/tab_me"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="15dp"
+                    android:layout_weight="1"
+                    android:drawablePadding="-20dp"
+                    android:drawableTop="@drawable/me_tab"
+                    android:gravity="center"
+                    android:text="@string/me"
+                    android:textColor="@color/custom_gray"
+                    android:textSize="8sp" />
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+        <FrameLayout
+            android:id="@+id/content_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/navigation"
+            android:layout_below="@id/tab_title"
+            android:background="@drawable/ripple"></FrameLayout>
+    </RelativeLayout>
+</android.support.constraint.ConstraintLayout>

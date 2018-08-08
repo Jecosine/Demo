@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Demo</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+
+    <string name="me">ME</string>
+    <string name="feed">FEED</string>
+    <string name="shop">SHOP</string>
+    <string name="home">HOME</string>
+</resources>

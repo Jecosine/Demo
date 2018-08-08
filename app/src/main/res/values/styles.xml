@@ -1,0 +1,19 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="@style/Tea">
+        <!-- Customize your theme here. -->
+        <item name="windowNoTitle">true</item>
+
+        <item name="colorPrimary">@color/custom_white</item>
+        <item name="colorPrimaryDark">@color/tea</item>
+        <item name="colorAccent">@color/tea</item>
+        <item name="android:textColorPrimary">@color/tea</item>
+        <item name="android:textColorPrimaryInverse">@color/tea</item>
+        <item name="android:navigationBarColor">@color/custom_white</item>
+    </style>
+
+
+
+
+</resources>

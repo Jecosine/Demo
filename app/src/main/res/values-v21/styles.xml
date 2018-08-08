@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Tea" parent="Base.Theme.AppCompat.Light.DarkActionBar">
+        <item name="android:colorPrimary">@color/custom_white</item>
+        <item name="android:colorAccent">@color/tea</item>
+        <item name="android:colorPrimaryDark">@color/tea</item>
+        <item name="android:colorForeground">@color/tea</item>
+        <item name="android:windowBackground">?android:attr/colorBackground</item>
+        <item name="android:navigationBarColor">@color/custom_gray</item>
+        <item name="android:textColorPrimary">@color/tea</item>
+    </style>
+
+
+</resources>
