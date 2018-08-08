@@ -20,6 +20,7 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.ViewFlipper;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener,GestureDetector.OnGestureListener {
@@ -37,7 +38,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private PageFragment p1,p2,p3,p4;
     private FragmentManager manager;
     private ViewPager viewPager = null;
-    private List<Fragment> fragmentList = new Arraylist<Fragment>();
+    private List<Fragment> fragmentList = new ArrayList<Fragment>();
     private  FragmentAdapter fragmentAdapter = null;
 
     //define swiping element
@@ -69,7 +70,32 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         fliper.setAnimateFirstView(true);
         //implement viewer part
         start_View();
-        fragmentAdapter = new FragmentAdapter(this.getSupportFragmentManager(),fragmentList)
+        fragmentAdapter = new FragmentAdapter(this.getSupportFragmentManager(),fragmentList);
+        viewPager.setOffscreenPageLimit(4);
+        viewPager.setAdapter(fragmentAdapter);
+        viewPager.setCurrentItem(0);
+        //set view pager listen event
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int i, float v, int i1) {
+
+            }
+
+            @Override
+            public void onPageSelected(int i) {
+                //called when page is selected
+
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int i) {
+                //called when state changed
+                //case 0 nothing happened
+                //case 1 is slipping
+                //case 2 finish slipping
+            }
+        });
+
     }
 
 
@@ -79,15 +105,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         feed_tab = (TextView)this.findViewById(R.id.tab_feed);
         shop_tab = (TextView)this.findViewById(R.id.tab_shop);
         me_tab = (TextView)this.findViewById(R.id.tab_me);
-        page_content = (FrameLayout)findViewById(R.id.content_container);
+        //page_content = (FrameLayout)findViewById(R.id.content_container);
 
         home_tab.setOnClickListener(this);
         feed_tab.setOnClickListener(this);
         shop_tab.setOnClickListener(this);
         me_tab.setOnClickListener(this);
 
+        viewPager = (ViewPager)findViewById(R.id.mainViewPager);
+        homePage = new HomePage();
+        feedPage = new FeedPage();
+        shopPage = new ShopPage();
+        mePage = new MePage();
+
+        fragmentList.add(homePage);
+        fragmentList.add(feedPage);
+        fragmentList.add(shopPage);
+        fragmentList.add(mePage);
+
         //Initially home page
-        this.onClick(home_tab);
+        //this.onClick(home_tab);
 
     }
 
@@ -116,59 +153,63 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View view) {
-        FragmentTransaction transaction = this.getSupportFragmentManager().beginTransaction();
-        hideFragment(transaction);
+        //FragmentTransaction transaction = this.getSupportFragmentManager().beginTransaction();
+        //hideFragment(transaction);
         switch (view.getId()){
             case R.id.tab_home:
                 selected();
                 home_tab.setSelected(true);
                 home_tab.setTextColor(getResources().getColor(R.color.tea));
-                if (p1 == null){
+                viewPager.setCurrentItem(0,true);
+                /*if (p1 == null){
                     p1 = new PageFragment("Home Page");
                     transaction.add(R.id.content_container,p1);
                 }
                 else {
                     transaction.show(p1);
-                }
+                }*/
                 break;
             case R.id.tab_feed:
                 selected();
                 feed_tab.setSelected(true);
                 feed_tab.setTextColor(getResources().getColor(R.color.tea));
-                if (p2 == null){
+                /*if (p2 == null){
                     p2 = new PageFragment("Feed Page");
                     transaction.add(R.id.content_container,p2);
                 }
                 else {
                     transaction.show(p2);
-                }
+                }*/
+                viewPager.setCurrentItem(1,true);
                 break;
             case R.id.tab_shop:
                 selected();
                 shop_tab.setSelected(true);
                 shop_tab.setTextColor(getResources().getColor(R.color.tea));
-                if (p3 == null){
+                /*if (p3 == null){
                     p3 = new PageFragment("Shop Page");
                     transaction.add(R.id.content_container,p3);
                 }
                 else {
                     transaction.show(p3);
-                }
+                }*/
+                viewPager.setCurrentItem(2,true);
                 break;
             case R.id.tab_me:
                 selected();
                 me_tab.setSelected(true);
                 me_tab.setTextColor(getResources().getColor(R.color.tea));
-                if (p4 == null){
+                /*if (p4 == null){
                     p4 = new PageFragment("Me Page");
                     transaction.add(R.id.content_container,p4);
                 }
                 else {
                     transaction.show(p4);
-                }
+                }*/
+                viewPager.setCurrentItem(3,true);
                 break;
         }
-        transaction.commit();
+        //transaction.commit();
     }
 
     //implement flip
